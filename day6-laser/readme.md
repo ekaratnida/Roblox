@@ -1,5 +1,7 @@
 Day 6 https://shorturl.at/3TX4q
 
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/a63f890d-68fa-445a-8059-f3b9c71b2b92" />
+
 ### First code in any part such as block.
 ```lua
 local part = script.Parent
