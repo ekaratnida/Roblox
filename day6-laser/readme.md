@@ -5,17 +5,14 @@ Day 6 https://shorturl.at/3TX4q
 ### First code in any part such as block.
 ```lua
 local part = script.Parent
-
 -- Laser settings
 local laserColor = Color3.new(1, 0, 0) -- Red
 local laserMaterial = Enum.Material.Neon
 local laserWidth = 0.5
-
 local minX = -10
 local maxX = 10
 local minZ = -10
 local maxZ = 10
-
 while true do
 	-- Wait a random time between 1 and 3 seconds
 
@@ -57,14 +54,50 @@ while true do
 	local result = workspace:Raycast(origin, direction, raycastParams)
 	local hitPosition = origin + direction
 	
+	-- Create laser part
+	local laser = Instance.new("Part")
+	laser.Anchored = true
+	laser.CanCollide = false
+	laser.Material = laserMaterial
+	laser.Color = laserColor
+	laser.Transparency = 0
+	laser.Size = Vector3.new(laserWidth, (origin - hitPosition).Magnitude, laserWidth)
+	laser.CFrame = CFrame.new((origin + hitPosition) / 2, hitPosition)
+	laser.Orientation = Vector3.new(0, 90, 0)
+	laser.Parent = workspace
+
+	-- Remove laser after short time
+	task.wait(1)
+	laser:Destroy()
+	
 	if result then
 		hitPosition = result.Position
 		-- Traverse up the ancestry to find a Humanoid
 		local instance = result.Instance
 		
 		if instance and instance:IsA("BasePart") then
-			-- Optional: Add a delay before destroying
-			task.wait(0.5)
+			-- EFFECT: Flash color and emit particles before destroying
+			local originalColor = instance.Color
+			instance.Color = Color3.new(1, 0, 0) -- Flash red
+
+			-- Add a ParticleEmitter effect
+			local emitter = Instance.new("ParticleEmitter")
+			emitter.Color = ColorSequence.new(Color3.new(1, 0, 0))
+			emitter.LightEmission = 20
+			emitter.Size = NumberSequence.new(2)
+			emitter.Texture = "rbxassetid://243098098" -- Default spark texture
+			emitter.Lifetime = NumberRange.new(0.3, 0.5)
+			emitter.Rate = 200
+			emitter.Speed = NumberRange.new(10,15)
+			emitter.Parent = instance
+
+			task.wait(3) -- Show effect for 0.5 seconds
+
+			-- Clean up effect
+			emitter.Enabled = false
+			emitter:Destroy()
+			instance.Color = originalColor
+
 			instance:Destroy()
 		end
 		
@@ -81,22 +114,6 @@ while true do
 			humanoid.Health = 0
 		end
 	end
-
-	-- Create laser part
-	local laser = Instance.new("Part")
-	laser.Anchored = true
-	laser.CanCollide = false
-	laser.Material = laserMaterial
-	laser.Color = laserColor
-	laser.Transparency = 0
-	laser.Size = Vector3.new(laserWidth, (origin - hitPosition).Magnitude, laserWidth)
-	laser.CFrame = CFrame.new((origin + hitPosition) / 2, hitPosition)
-	laser.Orientation = Vector3.new(0, 90, 0)
-	laser.Parent = workspace
-
-	-- Remove laser after short time
-	task.wait(2)
-	laser:Destroy()
 end
 ```
 
