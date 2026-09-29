@@ -14,8 +14,59 @@ end
 -- Connect the function to the MouseClick event
 clickDetector.MouseClick:Connect(onClicked)
 ```
+## 2.2 ClickDetector
 
-2.2 Tween https://create.roblox.com/docs/en-us/reference/engine/classes/ClickDetector
+```Lau
+--print("Hello world!")
+local clickDetector = script.Parent
+
+local function onClicked(player)
+	-- Show a message to the player
+	local msg = Instance.new("Message")
+	msg.Parent = player:FindFirstChild("PlayerGui")
+	msg.Text = "Hello, " .. player.Name
+	wait(2.5)
+	msg:Destroy()
+end
+-- Connect the function to the MouseClick event
+clickDetector.MouseClick:Connect(onClicked)
+```
+
+## 2.3 Anchor Toggle
+```Lua
+local part = script.Parent
+
+-- Create a ClickDetector so we can tell when the part is clicked
+local cd = Instance.new("ClickDetector", part)
+
+-- This function updates how the part looks based on its Anchored state
+local function updateVisuals()
+	if part.Anchored then
+		-- When the part is anchored...
+		part.BrickColor = BrickColor.new("Bright red")
+		part.Material = Enum.Material.DiamondPlate
+	else
+		-- When the part is unanchored...
+		part.BrickColor = BrickColor.new("Bright yellow")
+		part.Material = Enum.Material.Wood
+	end
+end
+
+local function onToggle()
+	-- Toggle the anchored property
+	part.Anchored = not part.Anchored
+
+	-- Update visual state of the brick
+	updateVisuals()
+end
+
+-- Update, then start listening for clicks
+updateVisuals()
+cd.MouseClick:Connect(onToggle)
+```
+
+## 2.4 Tween https://create.roblox.com/docs/en-us/reference/engine/classes/ClickDetector
+
 ```Lua
 local clickDetector = script.Parent.ClickDetector
 local TweenService = game:GetService("TweenService")
