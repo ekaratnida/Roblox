@@ -15,7 +15,7 @@ end
 clickDetector.MouseClick:Connect(onClicked)
 ```
 
-2.2 Tween
+2.2 Tween https://create.roblox.com/docs/en-us/reference/engine/classes/ClickDetector
 ```Lua
 local clickDetector = script.Parent.ClickDetector
 local TweenService = game:GetService("TweenService")
