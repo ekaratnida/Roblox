@@ -1,4 +1,4 @@
-# Day3,
+# Day3
 
 - Students will learn to develop a mini gameplay based on the game objectives. When a player spawn, he needs to escape from zombies, cross unstable bridge, and go to open the door.
 
@@ -14,6 +14,44 @@ end
 -- Connect the function to the MouseClick event
 clickDetector.MouseClick:Connect(onClicked)
 ```
+In class
+```lua
+local clickDetector = script.Parent
+
+local part = script.Parent.Parent
+print(part.Name)
+
+local function whenClicked()
+	-- Show a message to the player
+	print("click")
+	part.Rotation = Vector3.new(0,0,60)
+	part.Size = Vector3.new(10,10,10)
+end
+
+local function whenHovering()
+	-- Show a message to the player
+	print("hover")
+	part.Color = Color3.new(0.666667, 0, 0)
+	part.Material = Enum.Material.Neon
+	part.Transparency = 0.8
+	
+end
+
+local function whenLeaving()
+	-- Show a message to the player
+	print("leave")
+	part.Color = Color3.new(0,0.666667, 0) -- R, G, B
+	part.Material = Enum.Material.Neon
+	part.Transparency = 0.2
+end
+
+-- Connect the function to the MouseClick event
+clickDetector.MouseClick:Connect(whenClicked)
+clickDetector.MouseHoverEnter:Connect(whenHovering)
+clickDetector.MouseHoverLeave:Connect(whenLeaving)
+```
+
+
 ## 2.2 ClickDetector
 
 ```Lua
